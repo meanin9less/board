@@ -8,8 +8,8 @@ export default function Readpage(props){
         <hr></hr>
         <p>{props.readPost.writer}</p>
         <hr></hr>
-        <button onClick="{}"></button>
-        <button onClick="{}"></button>
+        <button onClick="{}">수정</button>
+        <button onClick="{}">삭제</button>
         </>
     )
 }
