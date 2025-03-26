@@ -1,21 +1,19 @@
 import {useState} from "react";
-export default function Writepage(props) {
-    const newList = props.postList;
-    const [inputTitle, setinputTitle] = useState("");
-    const [inputBody, setinputBody] = useState("");
-    const [inputWriter, setinputWriter] = useState("");
+export default function Updatepage(props) {
+    const [inputTitle, setinputTitle] = useState(props.readPost.title);
+    const [inputBody, setinputBody] = useState(props.readPost.body);
+    const [inputWriter, setinputWriter] = useState(props.readPost.writer);
     return (
         <>
             <form name="form" onSubmit={(e)=>{
                 e.preventDefault();
-                const newPost = {
-                    id: newList.length+1,
+                const updatePost = {
+                    id: props.readPost.id,
                     title:inputTitle, 
                     body:inputBody, 
                     writer:inputWriter
                 }
-                newList.push(newPost);
-                props.onSelect("LIST", newList);
+                props.onSelect("READ", updatePost);
             }}>
                 <input type="text" name="inputTitle" value={inputTitle} onChange={(e)=>{
                     setinputTitle(e.target.value);

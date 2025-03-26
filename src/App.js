@@ -5,7 +5,7 @@ import Menu from './Menu'
 import PostList from './PostList';
 import Writepage from './Writepage'
 import Readpage from './Readpage'
-
+import Updatepage from './Updatepage';
 function App() {
   const [mode, setMode] = useState("LIST");
   const menuList = [
@@ -40,6 +40,18 @@ function App() {
       content = <Readpage readPost = {readPost} onSelect={(_mode) => {
         setMode(_mode);
       }}></Readpage>;
+      break;
+
+      case "UPDATE":
+      content = <Updatepage readPost = {readPost} onSelect={(_mode, _updatePost) => {
+        let updateList = [...postList].map((list)=>{
+          if(list.id === _updatePost.id){
+            return _updatePost;
+          }
+          });
+        setMode(_mode);
+        setPostList(updateList);
+      }}></Updatepage>;
       break;
   }
   return (

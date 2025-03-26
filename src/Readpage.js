@@ -6,10 +6,13 @@ export default function Readpage(props){
         <hr></hr>
         <p>{props.readPost.body}</p>
         <hr></hr>
-        <p>{props.readPost.writer}</p>
+        <p>작성자 : {props.readPost.writer}</p>
         <hr></hr>
-        <button onClick="{}">수정</button>
-        <button onClick="{}">삭제</button>
+        <a href="/" onClick={(e)=>{
+            e.preventDefault();
+            props.onSelect("UPDATE");
+        }}>수정</a>
+        <a href="/" onClick="{}">삭제</a>
         </>
     )
 }
