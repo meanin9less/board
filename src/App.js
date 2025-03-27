@@ -14,11 +14,10 @@ function App() {
   ];
   const [postList, setPostList] = useState([
     { id: 1, title: "반갑습니다", writer: "김진아", body: "안녕하세요" },
-    { id: 2, title: "뭘봐", writer: "김준홍", body: "안녕하세요" },
-    { id: 3, title: "나99대장김준홍인데", writer: "김준홍", body: "안녕하세요" },
-    { id: 4, title: "뭘야려", writer: "김준홍", body: "안녕하세요" }
+    { id: 2, title: "나 99대장 김준홍인데", writer: "김준홍", body: "안녕하세요" },
   ]);
   const [id, setId] = useState(0);
+  const [nextId, setNextId] = useState(postList.length+1);
   const readPost = postList.find((n)=>n.id===id);
   let content = null;
   switch (mode) {
@@ -30,33 +29,47 @@ function App() {
       break;
 
       case "WRITE":
-      content = <Writepage postList={postList} onSelect={(_mode, _newList) => {
+      content = <Writepage postList={postList} onSelect={(_mode, {title, body, writer}) => {
+        const newPost = {id:nextId, title, body, writer};
+        postList.push(newPost);
+        const newList = [...postList];
+        setNextId(nextId+1);
         setMode(_mode);
-        setPostList(_newList);
+        setPostList(newList);
       }}></Writepage>;
       break;
 
       case "READ":
-      content = <Readpage readPost = {readPost} onSelect={(_mode) => {
-        setMode(_mode);
+      content = <Readpage readPost = {readPost} onSelect={(_mode, _id) => {
+        if(_mode==="DELETE"){
+          const deletedList = [...postList].filter((list)=>list.id!==_id);
+          setPostList(deletedList);
+          setMode("LIST");
+        }else{
+          setMode(_mode);
+        }
       }}></Readpage>;
       break;
 
       case "UPDATE":
-      content = <Updatepage readPost = {readPost} onSelect={(_mode, _updatePost) => {
-        let updateList = [...postList].map((list)=>{
+      content = <Updatepage readPost = {readPost} onSelect={(_mode, _updatePost)=>{
+        const updateList = [...postList].map((list)=>{
           if(list.id === _updatePost.id){
             return _updatePost;
-          }
-          });
+          };
+          return list;
+        });
         setMode(_mode);
         setPostList(updateList);
       }}></Updatepage>;
       break;
+      default: break;
   }
   return (
     <>
-      <Header title="Board"></Header>
+      <Header title="Board" onSelect={(_mode)=>{
+        setMode(_mode);
+      }}></Header>
       <Menu menuList={menuList} onSelect={(_mode) => {
         setMode(_mode);
       }}></Menu>
